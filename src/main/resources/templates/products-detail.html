@@ -1,0 +1,38 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<head>
+    <title>Club Create</title>
+</head>
+<body class="d-flex flex-column">
+
+<section layout:fragment="body">
+    <header class="py-5 bg-light border-bottom mb-4">
+        <div class="container">
+            <div class="text-center my-5">
+                <h1 class="fw-bolder" th:text="${product.title}"></h1>
+            </div>
+        </div>
+    </header>
+    <!-- Page content-->
+    <div class="container">
+        <div class="row">
+            <!-- Blog entries-->
+            <div class="col-lg-8">
+                <!-- Featured blog post-->
+                <div class="card mb-4">
+                    <a href="#!"><img class="card-img-top" th:src="${product.photoUrl}" alt="..." /></a>
+                    <div class="card-body">
+                        <div class="small text-muted" th:text="${product.createdOn}"></div>
+                        <h2 class="card-title">About this product</h2>
+                        <a class="btn btn-primary" th:href="@{/products/{productId}(productId=${product.id})}">View</a>
+                        <a class="btn btn-primary" th:href="@{/products/{productId}/edit(productId=${product.id})}">Edit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
