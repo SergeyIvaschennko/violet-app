@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Playlist</title>
+</head>
+<body>
+<h2>Upload Audio File</h2>
+<form id="uploadForm" enctype="multipart/form-data">
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="name"><br>
+  <label for="artist">Artist:</label><br>
+  <input type="text" id="artist" name="artist"><br>
+  <label for="date">Date:</label><br>
+  <input type="date" id="date" name="date"><br>
+  <label for="picUrl">Picture URL:</label><br>
+  <input type="text" id="picUrl" name="picUrl"><br>
+  <input type="file" name="file" id="fileInput"><br>
+  <button type="submit">Upload</button>
+</form>
+
+<script>
+  // Функция для загрузки аудиофайла
+  function uploadAudioFile(event) {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('file', document.getElementById('fileInput').files[0]);
+    formData.append('name', document.getElementById('name').value);
+    formData.append('artist', document.getElementById('artist').value);
+    formData.append('date', document.getElementById('date').value);
+    formData.append('picUrl', document.getElementById('picUrl').value);
+
+    fetch('/upload', {
+      method: 'POST',
+      body: formData
+    })
+            .then(response => response.text())
+            .then(message => {
+              alert(message); // Оповещение об успешной загрузке файла
+              // Обновление списка плейлистов после успешной загрузки
+              loadPlaylist();
+            })
+            .catch(error => console.error('Error uploading audio file:', error));
+  }
+
+  // Добавляем обработчик события для отправки формы при загрузке файла
+  document.getElementById('uploadForm').addEventListener('submit', uploadAudioFile);
+</script>
+</body>
+</html>

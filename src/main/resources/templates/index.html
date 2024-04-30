@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Playlist</title>
+</head>
+<body>
+<h2>Playlist</h2>
+<div id="playlist"></div>
+<h2>Upload Audio File</h2>
+<a href="/uploadAudio">Upload Audio File</a>
+
+<script>
+    // Функция для загрузки списка плейлистов
+    function loadPlaylist() {
+        // Отправляем GET запрос на сервер для получения списка плейлистов
+        fetch('/audio/files')
+            .then(response => response.json())
+            .then(data => {
+                const playlistDiv = document.getElementById('playlist');
+                playlistDiv.innerHTML = ''; // Очищаем содержимое перед добавлением новых плейлистов
+
+                // Для каждого плейлиста создаем аудиоплеер
+                data.forEach(playlist => {
+                    const audioPlayer = document.createElement('audio');
+                    audioPlayer.controls = true;
+                    audioPlayer.src = `/audio/${playlist.filename}`; // Подставляем имя файла в путь
+
+                    // Создаем кнопку для удаления файла
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.addEventListener('click', () => deleteAudioFile(playlist.filename));
+
+                    // Создаем элемент списка и добавляем в него аудиоплеер и кнопку удаления
+                    const listItem = document.createElement('div');
+                    listItem.appendChild(audioPlayer);
+                    listItem.appendChild(deleteButton);
+
+                    // Добавляем элемент списка в общий список плейлистов
+                    playlistDiv.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error fetching playlist:', error));
+    }
+
+    // Вызываем функцию загрузки списка плейлистов при загрузке страницы
+    loadPlaylist();
+
+    // Функция для удаления аудиофайла
+    function deleteAudioFile(filename) {
+        fetch(`/audio/${filename}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Audio file deleted successfully'); // Оповещение об успешном удалении файла
+                    // Обновление списка плейлистов после успешного удаления
+                    loadPlaylist();
+                } else {
+                    alert('Failed to delete audio file');
+                }
+            })
+            .catch(error => console.error('Error deleting audio file:', error));
+    }
+
+    // Функция для загрузки аудиофайла
+    // function uploadAudioFile(event) {
+    //     event.preventDefault();
+    //     const formData = new FormData();
+    //     formData.append('file', document.getElementById('fileInput').files[0]);
+    //
+    //     fetch('/upload', {
+    //         method: 'POST',
+    //         body: formData
+    //     })
+    //         .then(response => response.text())
+    //         .then(message => {
+    //             alert(message); // Оповещение об успешной загрузке файла
+    //             // Обновление списка плейлистов после успешной загрузки
+    //             loadPlaylist();
+    //         })
+    //         .catch(error => console.error('Error uploading audio file:', error));
+    // }
+
+    // Добавляем обработчик события для отправки формы при загрузке файла
+    // document.getElementById('uploadForm').addEventListener('submit', uploadAudioFile);
+</script>
+</body>
+</html>

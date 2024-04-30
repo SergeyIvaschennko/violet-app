@@ -31,14 +31,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login", "/register", "/products", "/css/**", "/js/**")
+                .antMatchers("/login", "/register", "/", "/css/**", "/js/**", "/bookmark")
                 .permitAll()
-                .antMatchers("/mc").hasAuthority("ADMIN")
-                .antMatchers("/products/new", "/products/{productId}/delete", "/products/{productId}", "/products/{productId}/edit").hasAnyAuthority("USER", "ADMIN")
+//                .antMatchers("/mc").hasAuthority("ADMIN")
+                .antMatchers("/products/new", "/products/{productId}", "/uploadAudio").hasAnyAuthority("Admin", "Artist")
                 .and()
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/products")
+                        .defaultSuccessUrl("/")
                         .loginProcessingUrl("/login")
                         .failureUrl("/login?error=true")
                         .permitAll()
