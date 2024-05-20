@@ -45,7 +45,7 @@ public class AudioController {
     }
 
     @GetMapping("/")
-    public String index() {
+    public String indexx() {
         return "index";
     }
 
