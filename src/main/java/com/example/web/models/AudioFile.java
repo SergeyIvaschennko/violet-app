@@ -1,11 +1,12 @@
 package com.example.web.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Date;
 
 @Data
@@ -30,19 +31,21 @@ public class AudioFile {
     @Column(nullable = false)
     private Date date;
 
-    @Column(nullable = false)
-    private String picUrl;
+    private String time;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnore
     private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "genre_id", referencedColumnName = "id")
+    @JsonIgnore
     private Genre genre;
 
     @ManyToOne
     @JoinColumn(name = "vibe_id", referencedColumnName = "id")
+    @JsonIgnore
     private Vibe vibe;
 
     @ManyToOne

@@ -1,6 +1,6 @@
 package com.example.web.models;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,15 +18,10 @@ public class MetaUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String about;
-
     private String picUrl;
 
-    private String members;
+    private String picCoverUrl;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private UserEntity user;
-
+    private String username;
 }
 

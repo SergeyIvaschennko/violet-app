@@ -1,10 +1,11 @@
 package com.example.web.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Data
@@ -30,8 +31,5 @@ public class Playlist {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
 
-//    // Добавляем связь с аудиофайлами
-//    @OneToMany(mappedBy = "playlist")
-//    private List<AudioFile> audioFiles;
 }
 
